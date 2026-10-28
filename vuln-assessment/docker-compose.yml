@@ -1,0 +1,26 @@
+# Isolated vulnerability-assessment lab.
+# All ports bound to 127.0.0.1 ONLY — not reachable from the network.
+# Targets are deliberately vulnerable apps for authorized educational testing.
+services:
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: va-dvwa
+    ports:
+      - "127.0.0.1:4280:80"
+    networks:
+      - labnet
+    restart: unless-stopped
+
+  juice-shop:
+    image: bkimminich/juice-shop
+    container_name: va-juice-shop
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - labnet
+    restart: unless-stopped
+
+networks:
+  labnet:
+    driver: bridge
+    internal: false   # containers need egress once to pull; kept local via 127.0.0.1 port binding

@@ -1,0 +1,9 @@
+=== Brute Force BEFORE (admin) ===
+[-] fail : admin:123456
+[-] fail : admin:admin
+[-] fail : admin:letmein
+[-] fail : admin:qwerty
+[+] VALID: admin:password
+[-] fail : admin:monkey
+--- no account lockout: 10 bad logins, account still active ---
+[+] after 10 failures admin:password STILL accepted = NO LOCKOUT

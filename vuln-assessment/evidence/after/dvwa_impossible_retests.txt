@@ -1,0 +1,17 @@
+=== Command Injection AFTER (impossible): payload 127.0.0.1;id ===
+uid= present? False | output: 'ERROR: You have entered an invalid IP.'
+=== Reflected XSS AFTER (impossible) ===
+raw <script> present? False
+encoded? False
+
+=== Stored XSS AFTER (impossible) ===
+raw <script>alert('s2')</script> stored? False
+encoded &lt;script&gt; present? True
+=== Brute Force AFTER (impossible) ===
+impossible brute source uses:
+$total_failed_login = 3;
+$lockout_time       = 15;
+$account_locked     = false;
+$data = $db->prepare( 'SELECT failed_login, last_login FROM users WHERE user = (:user) LIMIT 1;' );
+$data->bindParam( ':user', $user, PDO::PARAM_STR );
+// Check to see if the user has been locked out.

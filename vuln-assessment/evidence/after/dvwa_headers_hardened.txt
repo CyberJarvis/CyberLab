@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 17 Oct 2026 07:35:36 GMT
+Content-Type: text/html;charset=utf-8
+Content-Length: 1523
+Connection: keep-alive
+Set-Cookie: PHPSESSID=tg6kp9a7jf39rsvtqpkapanlr3; path=/; HttpOnly; SameSite=Strict
+Expires: Tue, 23 Jun 2009 12:00:00 GMT
+Cache-Control: no-cache, must-revalidate
+Pragma: no-cache
+Set-Cookie: PHPSESSID=tg6kp9a7jf39rsvtqpkapanlr3; path=/; HttpOnly; SameSite=Strict
+Set-Cookie: security=low
+Vary: Accept-Encoding
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none'
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Referrer-Policy: no-referrer
+Permissions-Policy: geolocation=(), microphone=(), camera=()
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+

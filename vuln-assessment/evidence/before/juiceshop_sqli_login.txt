@@ -1,0 +1,3 @@
+[+] LOGIN BYPASS OK as: None
+[+] token (first 40): eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ...
+[+] Authenticated as: admin@juice-sh.op | admin role id: 1 | isAdmin via deluxe: admin

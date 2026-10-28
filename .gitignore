@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+**/.DS_Store
+
+# Personal / unrelated files (not part of CyberLab)
+*.pptx
+*.xlsx
+*.pub
+devops_pres.js
+github-painter.html
+amfi_nav_to_csv.py
+sign_lang_pos_viterbi.py
+Gemini/
+claude2.0/
+m1/
+pareidolia/
+.claude/
+
+# Lab run artifacts
+basic1_run_*/
+scans/

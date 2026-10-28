@@ -1,0 +1,13 @@
+# Overlay: hardened reverse proxy in front of DVWA (config mitigation).
+# Run with: docker compose -f docker-compose.yml -f docker-compose.hardened.yml up -d proxy
+services:
+  proxy:
+    image: nginx:alpine
+    container_name: va-proxy
+    depends_on: [dvwa]
+    ports:
+      - "127.0.0.1:4281:80"
+    volumes:
+      - ./hardening/nginx-hardened.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - labnet

