@@ -30,6 +30,23 @@ RANGE="${LAB_RANGE:-10.0.2.0/24}"   # override with: LAB_RANGE=192.168.56.0/24 .
 die(){ echo "[-] $*" >&2; exit 1; }
 have(){ command -v "$1" >/dev/null 2>&1; }
 
+# install a missing tool via apt (maps binary name -> package)
+ensure_tool(){
+  local bin="$1" pkg="$2"
+  have "$bin" && return 0
+  echo "[*] '$bin' not found — installing package '$pkg'..."
+  have apt-get || die "'$bin' missing and apt-get not available. Install $pkg manually (run on Kali/Debian)."
+  if [ "$(id -u)" -ne 0 ]; then
+    die "'$bin' missing. Re-run with sudo so it can be installed:  sudo $0 ..."
+  fi
+  if [ -z "${APT_UPDATED:-}" ]; then
+    echo "[*] apt-get update..."; apt-get update -y >/dev/null 2>&1; APT_UPDATED=1
+  fi
+  apt-get install -y "$pkg" || die "Failed to install $pkg. Check internet / apt sources."
+  have "$bin" || die "$pkg installed but '$bin' still not found."
+  echo "[+] '$bin' installed."
+}
+
 detect_lhost(){
   # best-effort: first non-loopback IPv4 of this Kali box
   local ip
@@ -42,7 +59,7 @@ detect_lhost(){
 [ $# -ge 1 ] || die "Usage: sudo $0 <TARGET_IP> [LHOST]   (or --discover)"
 
 if [ "$1" = "--discover" ]; then
-  have netdiscover || die "netdiscover not installed:  sudo apt install netdiscover"
+  ensure_tool netdiscover netdiscover
   echo "[*] Discovering hosts on $RANGE (Ctrl-C when you see the target)..."
   sudo netdiscover -r "$RANGE"
   exit 0
@@ -52,7 +69,9 @@ TARGET="$1"
 LHOST="${2:-$(detect_lhost)}"
 echo "$TARGET" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' || die "Bad target IP: $TARGET"
 
-for t in nmap msfconsole; do have "$t" || die "$t not found. Run on Kali Linux."; done
+# ensure required tools (auto-install on Kali/Debian if missing)
+ensure_tool nmap nmap
+ensure_tool msfconsole metasploit-framework
 
 echo "[*] Target = $TARGET   |   LHOST (your Kali) = $LHOST"
 echo "[*] Output folder: $WORKDIR"
