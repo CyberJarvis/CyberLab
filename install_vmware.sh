@@ -18,7 +18,19 @@ die(){ echo "[-] $*" >&2; exit 1; }
 have(){ command -v "$1" >/dev/null 2>&1; }
 [ "$(id -u)" -eq 0 ] || die "Run with sudo:  sudo $0 $*"
 
-MODE="${1:-virtualbox}"
+MODE="${1:-vmware}"   # VMware by default; pass 'virtualbox' for the no-login path
+
+# find a VMware .bundle: explicit arg/env first, else common download dirs
+find_bundle(){
+  local b
+  for b in "$BUNDLE_ARG" "${BUNDLE:-}" \
+           ./VMware-Workstation-Full-*.x86_64.bundle \
+           "$HOME"/Downloads/VMware-Workstation-Full-*.x86_64.bundle \
+           /tmp/VMware-Workstation-Full-*.x86_64.bundle; do
+    [ -n "$b" ] && [ -f "$b" ] && { echo "$b"; return 0; }
+  done
+  return 1
+}
 
 install_deps(){
   echo "[*] Installing kernel headers + build tools..."
@@ -46,11 +58,12 @@ case "$MODE" in
     ;;
 
   vmware)
-    BUNDLE="${2:-}"
-    [ -n "$BUNDLE" ] || die "Give the bundle path: sudo $0 vmware /path/to/VMware-Workstation-*.bundle
-   Download it (free, personal) after login at:
-   https://www.vmware.com/products/workstation-pro.html  (via Broadcom portal)"
-    [ -f "$BUNDLE" ] || die "Not found: $BUNDLE"
+    BUNDLE_ARG="${2:-}"
+    BUNDLE="$(find_bundle)" || die "No VMware .bundle found.
+   Download it (free, personal) after Broadcom login, then either:
+     - drop it in ~/Downloads (this script auto-finds it), or
+     - pass the path:  sudo $0 vmware /path/to/VMware-Workstation-Full-*.x86_64.bundle"
+    echo "[*] Using bundle: $BUNDLE"
     install_deps
     echo "[*] Installing VMware Workstation from $BUNDLE ..."
     chmod +x "$BUNDLE"
